@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import DarkVeil from '@/components/DarkVeil';
+import Aurora from '@/components/Aurora';
 
 const SharePage = () => {
   const router = useRouter();
@@ -54,17 +55,20 @@ const SharePage = () => {
 
   return (
     <div className="relative min-h-screen text-textPrimary overflow-hidden">
-      <div className="absolute inset-0 -z-20">
+      <div className="absolute inset-0 -z-20 pointer-events-none">
+        <Aurora colorStops={['#1C0F2B', '#7B2FFF', '#A855F7']} amplitude={0.95} blend={0.35} speed={0.45} />
+      </div>
+      <div className="absolute inset-0 -z-10">
         <DarkVeil
-          hueShift={-65}
-          noiseIntensity={0.04}
-          scanlineIntensity={0.02}
-          scanlineFrequency={6}
-          speed={0.45}
-          warpAmount={0.2}
+          hueShift={-50}
+          noiseIntensity={0.015}
+          scanlineIntensity={0.01}
+          scanlineFrequency={5}
+          speed={0.25}
+          warpAmount={0.1}
         />
       </div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#2b0f52]/85 via-[#12031F]/90 to-[#050208]/95" />
+      <div className="absolute inset-0 -z-5 bg-gradient-to-b from-[#1C0F2B]/70 via-[#0a0615]/85 to-[#040109]/92" />
       <div className="relative z-10 min-h-screen px-6 py-20 flex items-center justify-center">
         <div className="max-w-3xl w-full space-y-10">
           <header className="text-center space-y-3">
