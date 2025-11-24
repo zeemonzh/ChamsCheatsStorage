@@ -14,7 +14,7 @@ const DashboardLayout = ({ title, subtitle, children, extraActions }) => {
   const { user, logout } = useAuth();
 
   return (
-    <div className="relative min-h-screen px-4 sm:px-8 py-10">
+    <div className="relative min-h-screen px-4 sm:px-8 py-10 overflow-hidden">
       <div className="absolute inset-0 -z-10 opacity-70 pointer-events-none">
         <Aurora colorStops={['#1C0F2B', '#7B2FFF', '#A855F7']} amplitude={0.9} blend={0.35} speed={0.4} />
       </div>
