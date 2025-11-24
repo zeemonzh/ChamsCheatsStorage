@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import MagicBento from '@/components/MagicBento';
 
 const tableVariants = {
   hidden: { opacity: 0, y: 10 },
@@ -23,33 +24,38 @@ const formatDate = (value) => {
 const FileList = ({ files = [], loading, onDelete, onDownload, onRename, onShare }) => {
   if (loading) {
     return (
-      <div className="glass-card p-6 animate-pulse">
-        <div className="h-6 w-32 bg-white/10 rounded mb-4" />
-        <div className="space-y-3">
-          {[...Array(3)].map((_, idx) => (
-            <div key={idx} className="h-14 bg-white/5 rounded-2xl" />
-          ))}
+      <MagicBento>
+        <div className="glass-card p-6 animate-pulse">
+          <div className="h-6 w-32 bg-white/10 rounded mb-4" />
+          <div className="space-y-3">
+            {[...Array(3)].map((_, idx) => (
+              <div key={idx} className="h-14 bg-white/5 rounded-2xl" />
+            ))}
+          </div>
         </div>
-      </div>
+      </MagicBento>
     );
   }
 
   if (!files.length) {
     return (
-      <motion.div className="glass-card p-8 text-center" variants={tableVariants} initial="hidden" animate="visible">
-        <p className="text-textMuted">No files yet. Upload something epic.</p>
-      </motion.div>
+      <MagicBento>
+        <motion.div className="glass-card p-8 text-center" variants={tableVariants} initial="hidden" animate="visible">
+          <p className="text-textMuted">No files yet. Upload something epic.</p>
+        </motion.div>
+      </MagicBento>
     );
   }
 
   return (
-    <motion.div
-      className="glass-card p-4 sm:p-6"
-      variants={tableVariants}
-      initial="hidden"
-      animate="visible"
-      transition={{ duration: 0.3 }}
-    >
+    <MagicBento>
+      <motion.div
+        className="glass-card p-4 sm:p-6"
+        variants={tableVariants}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.3 }}
+      >
       {/* Desktop table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left text-sm">
@@ -190,7 +196,8 @@ const FileList = ({ files = [], loading, onDelete, onDownload, onRename, onShare
           </div>
         ))}
       </div>
-    </motion.div>
+      </motion.div>
+    </MagicBento>
   );
 };
 

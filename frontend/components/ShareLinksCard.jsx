@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '@/lib/api';
+import MagicBento from '@/components/MagicBento';
 
 const formatDate = (value) => {
   if (!value) return '—';
@@ -54,7 +55,8 @@ const ShareLinksCard = () => {
   };
 
   return (
-    <div className="glass-card p-6 space-y-6">
+    <MagicBento>
+      <div className="glass-card p-6 space-y-6">
       <div className="flex flex-col gap-2">
         <p className="text-xs uppercase tracking-[0.4em] text-textMuted">Share links</p>
         <h2 className="text-2xl font-semibold">Keep track of every drop</h2>
@@ -117,6 +119,7 @@ const ShareLinksCard = () => {
         </div>
       )}
     </div>
+    </MagicBento>
   );
 };
 

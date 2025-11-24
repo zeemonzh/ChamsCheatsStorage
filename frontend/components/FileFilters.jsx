@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import MagicBento from '@/components/MagicBento';
 
 const normalizeCollections = (collections) =>
   collections
@@ -25,7 +26,8 @@ const FileFilters = ({
   const subCollections = activeCollection ? activeCollection.subCollections : [];
 
   return (
-    <div className="glass-card p-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <MagicBento>
+      <div className="glass-card p-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
       <label className="flex-1 text-sm font-medium">
         Search
         <div className="relative mt-2">
@@ -90,7 +92,8 @@ const FileFilters = ({
           </motion.button>
         )}
       </div>
-    </div>
+      </div>
+    </MagicBento>
   );
 };
 
