@@ -140,13 +140,12 @@ const MagicBento = ({
       particlesRef.current = [];
     };
 
-    if (enableStars && !isMobile && particlesRef.current.length === 0) {
-      for (let i = 0; i < particleCount; i += 1) {
-        createParticle();
-      }
-    }
-
     const handleEnter = () => {
+      if (enableStars && !isMobile && particlesRef.current.length === 0) {
+        for (let i = 0; i < particleCount; i += 1) {
+          createParticle();
+        }
+      }
       card.style.setProperty('--mb-glow-opacity', enableBorderGlow ? '1' : '0.5');
     };
 
@@ -155,6 +154,7 @@ const MagicBento = ({
       if (enableTilt || enableMagnetism) {
         gsap.to(card, { rotateX: 0, rotateY: 0, x: 0, y: 0, duration: 0.4, ease: 'power3.out' });
       }
+      clearParticles();
     };
 
     const handleMove = (event) => {
