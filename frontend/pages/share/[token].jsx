@@ -53,11 +53,19 @@ const SharePage = () => {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/share/${token}/download/${fileId}`;
 
   return (
-    <div className="relative min-h-screen text-textPrimary overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <DarkVeil hueShift={-20} noiseIntensity={0.03} scanlineIntensity={0.08} scanlineFrequency={10} speed={0.35} warpAmount={0.15} />
+    <div className="relative min-h-screen overflow-hidden text-textPrimary">
+      <div className="absolute inset-0 -z-20">
+        <DarkVeil
+          hueShift={-40}
+          noiseIntensity={0.02}
+          scanlineIntensity={0.05}
+          scanlineFrequency={8}
+          speed={0.3}
+          warpAmount={0.12}
+        />
       </div>
-      <div className="relative z-10 flex items-center justify-center px-4 py-16">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#1C0F2B]/70 via-[#7B2FFF]/60 to-[#A855F7]/60" />
+      <div className="relative z-10 flex min-h-screen w-full items-center justify-center px-4 py-16">
         <div className="w-full max-w-3xl space-y-8">
           <header className="text-center space-y-3">
           <p className="text-xs uppercase tracking-[0.4em] text-textMuted">Shared files</p>
@@ -75,7 +83,7 @@ const SharePage = () => {
           )}
           </header>
 
-          <div className="glass-card p-6 backdrop-blur-xl bg-black/40">
+          <div className="glass-card p-6 bg-black/50 backdrop-blur-xl">
           {!data.files.length ? (
             <p className="text-textMuted text-center">No files are available anymore.</p>
           ) : (
