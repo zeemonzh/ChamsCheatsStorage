@@ -86,8 +86,8 @@ const MagicBento = ({
   enableStars = true,
   enableSpotlight = true,
   enableBorderGlow = true,
-  enableTilt = true,
-  enableMagnetism = true,
+  enableTilt = false,
+  enableMagnetism = false,
   clickEffect = true,
   textAutoHide = true, // kept for API parity
   className = ''
@@ -140,12 +140,14 @@ const MagicBento = ({
       particlesRef.current = [];
     };
 
-    const handleEnter = () => {
-      if (enableStars && !isMobile && particlesRef.current.length === 0) {
-        for (let i = 0; i < particleCount; i += 1) {
-          createParticle();
-        }
+    if (enableStars && !isMobile && particlesRef.current.length === 0) {
+      for (let i = 0; i < particleCount; i += 1) {
+        createParticle();
       }
+    }
+
+    const handleEnter = () => {
+      card.style.setProperty('--mb-glow-opacity', enableBorderGlow ? '1' : '0.5');
     };
 
     const handleLeave = () => {
@@ -153,7 +155,6 @@ const MagicBento = ({
       if (enableTilt || enableMagnetism) {
         gsap.to(card, { rotateX: 0, rotateY: 0, x: 0, y: 0, duration: 0.4, ease: 'power3.out' });
       }
-      clearParticles();
     };
 
     const handleMove = (event) => {
@@ -192,22 +193,23 @@ const MagicBento = ({
       if (!clickEffect || isMobile) return;
       const rect = card.getBoundingClientRect();
       const ripple = document.createElement('span');
+      const size = rect.width;
       ripple.style.position = 'absolute';
       ripple.style.borderRadius = '999px';
       ripple.style.pointerEvents = 'none';
-      ripple.style.width = `${rect.width * 1.2}px`;
-      ripple.style.height = `${rect.width * 1.2}px`;
-      ripple.style.left = `${event.clientX - rect.left - (rect.width * 1.2) / 2}px`;
-      ripple.style.top = `${event.clientY - rect.top - (rect.width * 1.2) / 2}px`;
-      ripple.style.background = `radial-gradient(circle, rgba(${glowColor},0.45) 0%, rgba(${glowColor},0.1) 50%, transparent 75%)`;
+      ripple.style.width = `${size}px`;
+      ripple.style.height = `${size}px`;
+      ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
+      ripple.style.background = `radial-gradient(circle, rgba(${glowColor},0.2) 0%, rgba(${glowColor},0.06) 40%, transparent 70%)`;
       ripple.style.zIndex = 4;
-      ripple.style.opacity = '0.8';
+      ripple.style.opacity = '0.5';
       card.appendChild(ripple);
 
       gsap.to(ripple, {
-        scale: 1.4,
+        scale: 1.15,
         opacity: 0,
-        duration: 0.6,
+        duration: 0.4,
         ease: 'power2.out',
         onComplete: () => ripple.remove()
       });
