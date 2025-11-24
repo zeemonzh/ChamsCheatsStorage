@@ -4,6 +4,7 @@ import DashboardLayout from '@/components/DashboardLayout';
 import FileList from '@/components/FileList';
 import FileFilters from '@/components/FileFilters';
 import InviteManager from '@/components/InviteManager';
+import ShareLinksCard from '@/components/ShareLinksCard';
 import Modal from '@/components/Modal';
 import useRequireAuth from '@/hooks/useRequireAuth';
 import { useAuth } from '@/context/AuthContext';
@@ -197,6 +198,7 @@ const Dashboard = () => {
         onRename={handleRename}
         onShare={handleShareFile}
       />
+      <ShareLinksCard />
       <Modal isOpen={inviteModalOpen} onClose={() => setInviteModalOpen(false)}>
         <InviteManager />
       </Modal>

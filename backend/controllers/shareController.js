@@ -74,6 +74,40 @@ const findShare = async (token) => {
   return share;
 };
 
+const listShareLinks = async (req, res, next) => {
+  try {
+    const baseUrl = (process.env.APP_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
+    const links = await ShareLink.find({ owner: req.user.id })
+      .sort({ createdAt: -1 })
+      .populate('file', 'originalName filename fileType size uploadedAt');
+
+    const data = links.map((link) => ({
+      id: link._id,
+      token: link.token,
+      type: link.type,
+      collection: link.collection,
+      subCollection: link.subCollection,
+      createdAt: link.createdAt,
+      expiresAt: link.expiresAt,
+      url: `${baseUrl}/share/${link.token}`,
+      isExpired: link.expiresAt < new Date(),
+      file:
+        link.type === 'file' && link.file
+          ? {
+              id: link.file._id,
+              name: link.file.originalName || link.file.filename,
+              size: link.file.size,
+              fileType: link.file.fileType
+            }
+          : null
+    }));
+
+    res.json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getShareDetails = async (req, res, next) => {
   try {
     const share = await findShare(req.params.token);
@@ -150,6 +184,7 @@ const downloadSharedFile = async (req, res, next) => {
 
 module.exports = {
   createShareLink,
+  listShareLinks,
   getShareDetails,
   downloadSharedFile
 };

@@ -1,10 +1,10 @@
 const express = require('express');
-const { createShareLink, getShareDetails, downloadSharedFile } = require('../controllers/shareController');
+const { createShareLink, listShareLinks, getShareDetails, downloadSharedFile } = require('../controllers/shareController');
 const auth = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-router.post('/', auth, createShareLink);
+router.route('/').get(auth, listShareLinks).post(auth, createShareLink);
 router.get('/:token', getShareDetails);
 router.get('/:token/download/:fileId', downloadSharedFile);
 

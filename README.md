@@ -35,6 +35,7 @@ The API exposes:
 - `DELETE /api/files/:id`
 - `PATCH /api/files/:id`
 - `POST /api/share` (generate time-boxed public links)
+- `GET /api/share` (list a user's generated share links)
 - `GET /api/share/:token` + `/api/share/:token/download/:fileId`
 - `GET /api/invites` (admin only)
 - `POST /api/invites` (admin only)
@@ -57,7 +58,7 @@ Pages:
 
 - Registration is invite-only. Create invite codes from the Dashboard (only users listed in `INVITE_ADMIN_EMAILS` can generate codes) and share them with trusted users. Each code is single-use and must be entered on the registration form.
 - Default storage provider is local disk (`backend/uploads`). Switch to an S3-compatible provider (AWS S3, Cloudflare R2, MinIO, etc.) by setting `STORAGE_PROVIDER=s3` and populating the AWS variables. For Cloudflare R2, set `AWS_REGION=auto`, `AWS_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com`, and optionally `CDN_BASE_URL` to a public Worker/Custom domain.
-- Files can be organized via collections + sub-collections, and any file or collection can be shared through expiring public links (`/share/:token`) without exposing the dashboard.
+- Files can be organized via collections + sub-collections, and any file or collection can be shared through expiring public links (`/share/:token`) without exposing the dashboard. Every generated link now shows up under "Share links" on the dashboard so you can copy or review them later without regenerating.
 - Upload limit enforced at both frontend (client-side messaging) and backend (multer limit).
 - JWT tokens persist in `localStorage`; API requires `Authorization: Bearer <token>`.
 
