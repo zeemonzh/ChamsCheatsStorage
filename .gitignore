@@ -1,0 +1,27 @@
+# Node
+node_modules
+npm-debug.log*
+.npm
+
+# Env
+.env
+.env.local
+frontend/.env.local
+backend/.env
+
+# Builds
+.next
+out
+coverage
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+logs
+
+# Uploads (kept via .gitkeep)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
