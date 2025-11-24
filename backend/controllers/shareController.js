@@ -76,6 +76,7 @@ const findShare = async (token) => {
 
 const listShareLinks = async (req, res, next) => {
   try {
+    await ShareLink.deleteMany({ owner: req.user.id, expiresAt: { $lt: new Date() } });
     const baseUrl = (process.env.APP_BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
     const links = await ShareLink.find({ owner: req.user.id })
       .sort({ createdAt: -1 })
@@ -90,7 +91,6 @@ const listShareLinks = async (req, res, next) => {
       createdAt: link.createdAt,
       expiresAt: link.expiresAt,
       url: `${baseUrl}/share/${link.token}`,
-      isExpired: link.expiresAt < new Date(),
       file:
         link.type === 'file' && link.file
           ? {
@@ -103,6 +103,19 @@ const listShareLinks = async (req, res, next) => {
     }));
 
     res.json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteShareLink = async (req, res, next) => {
+  try {
+    const share = await ShareLink.findOne({ _id: req.params.id, owner: req.user.id });
+    if (!share) {
+      return res.status(404).json({ message: 'Share link not found' });
+    }
+    await share.deleteOne();
+    res.json({ message: 'Share link terminated' });
   } catch (error) {
     next(error);
   }
@@ -185,6 +198,7 @@ const downloadSharedFile = async (req, res, next) => {
 module.exports = {
   createShareLink,
   listShareLinks,
+  deleteShareLink,
   getShareDetails,
   downloadSharedFile
 };

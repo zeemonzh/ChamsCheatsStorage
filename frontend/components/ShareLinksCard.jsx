@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import apiClient from '@/lib/api';
 
 const formatDate = (value) => {
@@ -13,6 +13,7 @@ const ShareLinksCard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [copiedId, setCopiedId] = useState(null);
+  const [terminatingId, setTerminatingId] = useState(null);
 
   useEffect(() => {
     const load = async () => {
@@ -39,60 +40,18 @@ const ShareLinksCard = () => {
     }
   };
 
-  const activeLinks = useMemo(() => links.filter((link) => !link.isExpired), [links]);
-  const expiredLinks = useMemo(() => links.filter((link) => link.isExpired), [links]);
-
-  const renderList = (list, title) => (
-    <div>
-      <p className="text-xs uppercase tracking-[0.4em] text-textMuted mb-2">{title}</p>
-      {!list.length ? (
-        <p className="text-textMuted text-sm">Nothing here yet.</p>
-      ) : (
-        <div className="space-y-3">
-          {list.map((link) => (
-            <div
-              key={link.id}
-              className="rounded-3xl border border-white/5 bg-black/20 p-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between"
-            >
-              <div className="space-y-1">
-                <div className="flex items-center gap-3 text-sm font-semibold">
-                  <span className="capitalize">{link.type}</span>
-                  <span
-                    className={`text-xs px-3 py-1 rounded-full ${
-                      link.isExpired ? 'bg-red-500/20 text-red-200' : 'bg-green-500/20 text-green-200'
-                    }`}
-                  >
-                    {link.isExpired ? 'Expired' : 'Active'}
-                  </span>
-                </div>
-                {link.type === 'file' && link.file ? (
-                  <p className="text-xs text-textMuted">
-                    File: {link.file.name} ·{' '}
-                    {link.file.size ? `${(link.file.size / (1024 * 1024)).toFixed(1)} MB` : 'Size unavailable'}
-                  </p>
-                ) : (
-                  <p className="text-xs text-textMuted">
-                    Collection: {link.collection}
-                    {link.subCollection ? ` / ${link.subCollection}` : ''}
-                  </p>
-                )}
-                <p className="text-xs text-textMuted">Expires {formatDate(link.expiresAt)}</p>
-              </div>
-              <div className="flex flex-col gap-2 md:items-end">
-                <button
-                  onClick={() => handleCopy(link.url, link.id)}
-                  className="px-4 py-2 rounded-2xl border border-white/10 text-xs font-semibold hover:border-accent transition"
-                >
-                  {copiedId === link.id ? 'Copied!' : 'Copy link'}
-                </button>
-                <p className="text-[11px] text-textMuted break-all max-w-xs md:text-right">{link.url}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  const handleTerminate = async (id) => {
+    if (!confirm('Terminate this share link?')) return;
+    try {
+      setTerminatingId(id);
+      await apiClient.delete(`/share/${id}`);
+      setLinks((prev) => prev.filter((link) => link.id !== id));
+    } catch (err) {
+      alert(err.message || 'Failed to terminate link');
+    } finally {
+      setTerminatingId(null);
+    }
+  };
 
   return (
     <div className="glass-card p-6 space-y-6">
@@ -109,11 +68,52 @@ const ShareLinksCard = () => {
       ) : error ? (
         <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/30 rounded-2xl px-4 py-2">{error}</p>
       ) : !links.length ? (
-        <p className="text-textMuted text-sm">No links generated yet.</p>
+        <p className="text-textMuted text-sm">No active links yet.</p>
       ) : (
-        <div className="space-y-6">
-          {renderList(activeLinks, 'Active')}
-          {renderList(expiredLinks, 'Expired')}
+        <div className="space-y-3">
+          {links.map((link) => (
+            <div
+              key={link.id}
+              className="rounded-3xl border border-white/5 bg-black/20 p-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-3 text-sm font-semibold">
+                  <span className="capitalize">{link.type}</span>
+                  <span className="text-xs px-3 py-1 rounded-full bg-green-500/20 text-green-200">Active</span>
+                </div>
+                {link.type === 'file' && link.file ? (
+                  <p className="text-xs text-textMuted">
+                    File: {link.file.name} ·{' '}
+                    {link.file.size ? `${(link.file.size / (1024 * 1024)).toFixed(1)} MB` : 'Size unavailable'}
+                  </p>
+                ) : (
+                  <p className="text-xs text-textMuted">
+                    Collection: {link.collection}
+                    {link.subCollection ? ` / ${link.subCollection}` : ''}
+                  </p>
+                )}
+                <p className="text-xs text-textMuted">Expires {formatDate(link.expiresAt)}</p>
+              </div>
+              <div className="flex flex-col gap-2 md:items-end">
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleCopy(link.url, link.id)}
+                    className="px-4 py-2 rounded-2xl border border-white/10 text-xs font-semibold hover:border-accent transition"
+                  >
+                    {copiedId === link.id ? 'Copied!' : 'Copy link'}
+                  </button>
+                  <button
+                    onClick={() => handleTerminate(link.id)}
+                    className="px-4 py-2 rounded-2xl border border-red-500/40 text-xs font-semibold text-red-200 hover:border-red-400 transition"
+                    disabled={terminatingId === link.id}
+                  >
+                    {terminatingId === link.id ? 'Terminating…' : 'Terminate'}
+                  </button>
+                </div>
+                <p className="text-[11px] text-textMuted break-all max-w-xs md:text-right">{link.url}</p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

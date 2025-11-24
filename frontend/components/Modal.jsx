@@ -33,9 +33,11 @@ const Modal = ({ isOpen, onClose, children }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="relative z-10 w-full max-w-2xl"
+            className="relative z-10 w-full max-w-4xl"
           >
-            {children}
+            <div className="max-h-[85vh] overflow-y-auto pr-2">
+              {children}
+            </div>
           </motion.div>
         </motion.div>
       )}

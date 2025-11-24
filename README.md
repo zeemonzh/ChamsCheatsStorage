@@ -35,7 +35,8 @@ The API exposes:
 - `DELETE /api/files/:id`
 - `PATCH /api/files/:id`
 - `POST /api/share` (generate time-boxed public links)
-- `GET /api/share` (list a user's generated share links)
+- `GET /api/share` (list active share links; expired links are purged automatically)
+- `DELETE /api/share/:id` (terminate a share link early)
 - `GET /api/share/:token` + `/api/share/:token/download/:fileId`
 - `GET /api/invites` (admin only)
 - `POST /api/invites` (admin only)
