@@ -14,6 +14,7 @@ const Dashboard = () => {
   const { isAuthenticated, loading: authLoading } = useRequireAuth();
   const { user } = useAuth();
   const [inviteModalOpen, setInviteModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState('');
@@ -151,17 +152,28 @@ const Dashboard = () => {
     }
   };
 
-  const inviteAction =
-    user?.isInviteAdmin ? (
+  const actionButtons = (
+    <div className="flex flex-wrap gap-2">
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        onClick={() => setInviteModalOpen(true)}
+        onClick={() => setShareModalOpen(true)}
         className="px-4 py-2 rounded-2xl border border-white/10 text-xs font-semibold text-white/80 hover:border-white/30 hover:text-white transition"
       >
-        Invite codes
+        Share links
       </motion.button>
-    ) : null;
+      {user?.isInviteAdmin && (
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => setInviteModalOpen(true)}
+          className="px-4 py-2 rounded-2xl border border-white/10 text-xs font-semibold text-white/80 hover:border-white/30 hover:text-white transition"
+        >
+          Invite codes
+        </motion.button>
+      )}
+    </div>
+  );
 
   if (authLoading || !isAuthenticated) {
     return (
@@ -175,7 +187,7 @@ const Dashboard = () => {
     <DashboardLayout
       title="Your vault"
       subtitle="Manage every drop with instant controls."
-      extraActions={inviteAction}
+      extraActions={actionButtons}
     >
       <FileFilters
         collections={collectionOptions}
@@ -198,9 +210,11 @@ const Dashboard = () => {
         onRename={handleRename}
         onShare={handleShareFile}
       />
-      <ShareLinksCard />
       <Modal isOpen={inviteModalOpen} onClose={() => setInviteModalOpen(false)}>
         <InviteManager />
+      </Modal>
+      <Modal isOpen={shareModalOpen} onClose={() => setShareModalOpen(false)}>
+        <ShareLinksCard />
       </Modal>
     </DashboardLayout>
   );
