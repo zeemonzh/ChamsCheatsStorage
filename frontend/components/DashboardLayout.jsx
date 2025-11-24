@@ -9,7 +9,7 @@ const navItems = [
   { label: 'Upload', href: '/upload' }
 ];
 
-const DashboardLayout = ({ title, subtitle, children }) => {
+const DashboardLayout = ({ title, subtitle, children, extraActions }) => {
   const router = useRouter();
   const { user, logout } = useAuth();
 
@@ -33,6 +33,7 @@ const DashboardLayout = ({ title, subtitle, children }) => {
             <p className="text-textMuted text-xs">Signed in as</p>
             <p className="font-semibold">{user?.name || user?.email}</p>
           </div>
+          {extraActions}
           <button
             onClick={() => {
               logout();

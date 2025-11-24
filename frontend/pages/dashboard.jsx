@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 import DashboardLayout from '@/components/DashboardLayout';
 import FileList from '@/components/FileList';
 import FileFilters from '@/components/FileFilters';
 import InviteManager from '@/components/InviteManager';
+import Modal from '@/components/Modal';
 import useRequireAuth from '@/hooks/useRequireAuth';
 import { useAuth } from '@/context/AuthContext';
 import apiClient from '@/lib/api';
@@ -10,6 +12,7 @@ import apiClient from '@/lib/api';
 const Dashboard = () => {
   const { isAuthenticated, loading: authLoading } = useRequireAuth();
   const { user } = useAuth();
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState('');
@@ -147,6 +150,18 @@ const Dashboard = () => {
     }
   };
 
+  const inviteAction =
+    user?.isInviteAdmin ? (
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={() => setInviteModalOpen(true)}
+        className="px-4 py-2 rounded-2xl bg-white/10 text-xs font-semibold hover:bg-white/20 transition"
+      >
+        Invite codes
+      </motion.button>
+    ) : null;
+
   if (authLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -156,7 +171,11 @@ const Dashboard = () => {
   }
 
   return (
-    <DashboardLayout title="Your vault" subtitle="Manage every drop with instant controls.">
+    <DashboardLayout
+      title="Your vault"
+      subtitle="Manage every drop with instant controls."
+      extraActions={inviteAction}
+    >
       <FileFilters
         collections={collectionOptions}
         searchValue={searchInput}
@@ -170,7 +189,6 @@ const Dashboard = () => {
         onSubCollectionChange={setSubCollectionFilter}
         onShareSelection={handleShareSelection}
       />
-      {user?.isInviteAdmin && <InviteManager />}
       <FileList
         files={files}
         loading={loading}
@@ -179,6 +197,9 @@ const Dashboard = () => {
         onRename={handleRename}
         onShare={handleShareFile}
       />
+      <Modal isOpen={inviteModalOpen} onClose={() => setInviteModalOpen(false)}>
+        <InviteManager />
+      </Modal>
     </DashboardLayout>
   );
 };
