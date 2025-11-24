@@ -97,6 +97,25 @@ const SharePage = () => {
             </div>
           )}
         </div>
+
+        <footer className="flex flex-wrap justify-center gap-4 text-sm text-textMuted">
+          <a
+            href="https://discord.gg/chams"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full border border-white/10 hover:border-accent transition"
+          >
+            Join our Discord
+          </a>
+          <a
+            href="https://www.trustpilot.com/review/chamscheats.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full border border-white/10 hover:border-accent transition"
+          >
+            Trustpilot Reviews
+          </a>
+        </footer>
       </div>
     </div>
   );
