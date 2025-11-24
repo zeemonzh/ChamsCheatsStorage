@@ -60,7 +60,7 @@ const SharePage = () => {
       </div>
       <div className="absolute inset-0 -z-10">
         <DarkVeil
-          hueShift={-50}
+          hueShift={-35}
           noiseIntensity={0.015}
           scanlineIntensity={0.01}
           scanlineFrequency={5}
