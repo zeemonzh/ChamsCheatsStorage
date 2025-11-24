@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import apiClient from '@/lib/api';
-import MagicBento from '@/components/MagicBento';
 
 const InviteManager = () => {
   const [invites, setInvites] = useState([]);
@@ -37,8 +36,7 @@ const InviteManager = () => {
   }, []);
 
   return (
-    <MagicBento radius="32px">
-      <div className="glass-card p-6">
+    <div className="glass-card p-6">
       <div className="flex flex-col gap-2 mb-4">
         <p className="text-xs uppercase tracking-[0.5em] text-textMuted">Access</p>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -56,7 +54,7 @@ const InviteManager = () => {
         <p className="text-textMuted text-sm">Share codes with trusted users to let them sign up.</p>
       </div>
 
-        {loading ? (
+      {loading ? (
         <p className="text-textMuted text-sm">Loading invites…</p>
       ) : invites.length === 0 ? (
         <p className="text-textMuted text-sm">No invite codes yet.</p>
@@ -87,9 +85,8 @@ const InviteManager = () => {
             );
           })}
         </div>
-        )}
-      </div>
-    </MagicBento>
+      )}
+    </div>
   );
 };
 

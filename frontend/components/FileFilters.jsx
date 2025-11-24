@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import MagicBento from '@/components/MagicBento';
 
 const normalizeCollections = (collections) =>
   collections
@@ -26,8 +25,7 @@ const FileFilters = ({
   const subCollections = activeCollection ? activeCollection.subCollections : [];
 
   return (
-    <MagicBento radius="28px">
-      <div className="glass-card p-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <div className="glass-card p-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
       <label className="flex-1 text-sm font-medium">
         Search
         <div className="relative mt-2">
@@ -42,7 +40,7 @@ const FileFilters = ({
         </div>
       </label>
 
-        <div className="flex flex-col md:flex-row gap-4 md:items-end">
+      <div className="flex flex-col md:flex-row gap-4 md:items-end">
         <label className="w-full md:w-56 text-sm font-medium">
           Collection
           <motion.select
@@ -81,7 +79,7 @@ const FileFilters = ({
           </motion.select>
         </label>
 
-          {onShareSelection && selectedCollection && (
+        {onShareSelection && selectedCollection && (
           <motion.button
             onClick={() => onShareSelection(selectedCollection, selectedSubCollection || null)}
             whileHover={{ scale: 1.02 }}
@@ -90,10 +88,9 @@ const FileFilters = ({
           >
             Share selection
           </motion.button>
-          )}
-        </div>
+        )}
       </div>
-    </MagicBento>
+    </div>
   );
 };
 

@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState, useId } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion } from 'framer-motion';
 import apiClient from '@/lib/api';
-import MagicBento from '@/components/MagicBento';
 
 const MAX_SIZE = 500 * 1024 * 1024; // 500MB
 
@@ -93,14 +92,13 @@ const UploadCard = ({ onUploadSuccess, collections = [] }) => {
   }, [isDragActive, uploading]);
 
   return (
-    <MagicBento radius="36px">
-      <motion.div
-        variants={cardVariants}
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 0.35, ease: 'easeOut' }}
-        className="glass-card p-8 w-full"
-      >
+    <motion.div
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="glass-card p-8 w-full"
+    >
       <div className="mb-6">
         <label className="block text-sm font-medium">
           Collection
@@ -162,13 +160,12 @@ const UploadCard = ({ onUploadSuccess, collections = [] }) => {
         </div>
       )}
 
-        {status && (
+      {status && (
         <p className="mt-4 text-sm text-textMuted flex items-center gap-2">
           <span className="text-accent">●</span> {status}
         </p>
-        )}
-      </motion.div>
-    </MagicBento>
+      )}
+    </motion.div>
   );
 };
 

@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import DarkVeil from '@/components/DarkVeil';
-import MagicBento from '@/components/MagicBento';
 import Aurora from '@/components/Aurora';
 
 const SharePage = () => {
@@ -88,8 +87,7 @@ const SharePage = () => {
           )}
           </header>
 
-          <MagicBento radius="40px">
-            <div className="glass-card p-6 bg-black/55 backdrop-blur-2xl">
+          <div className="glass-card p-6 bg-black/55 backdrop-blur-2xl">
           {!data.files.length ? (
             <p className="text-textMuted text-center">No files are available anymore.</p>
           ) : (
@@ -115,8 +113,7 @@ const SharePage = () => {
               ))}
             </div>
           )}
-            </div>
-          </MagicBento>
+          </div>
 
           <footer className="flex flex-wrap justify-center gap-4 text-sm text-textMuted">
           <a
