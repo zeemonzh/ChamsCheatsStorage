@@ -56,15 +56,15 @@ const SharePage = () => {
     <div className="relative min-h-screen text-textPrimary overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <DarkVeil
-          hueShift={-50}
-          noiseIntensity={0.03}
-          scanlineIntensity={0.08}
-          scanlineFrequency={12}
-          speed={0.4}
-          warpAmount={0.18}
+          hueShift={-30}
+          noiseIntensity={0.02}
+          scanlineIntensity={0.05}
+          scanlineFrequency={8}
+          speed={0.3}
+          warpAmount={0.12}
         />
       </div>
-      <div className="relative z-10 min-h-screen bg-ink/70 px-4 py-16 flex items-center justify-center">
+      <div className="relative z-10 min-h-screen bg-ink/80 px-4 py-16 flex items-center justify-center">
         <div className="max-w-3xl w-full space-y-8">
           <header className="text-center space-y-3">
           <p className="text-xs uppercase tracking-[0.4em] text-textMuted">Shared files</p>
