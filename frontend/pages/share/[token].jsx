@@ -54,18 +54,19 @@ const SharePage = () => {
 
   return (
     <div className="relative min-h-screen text-textPrimary overflow-hidden">
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-20">
         <DarkVeil
-          hueShift={-30}
-          noiseIntensity={0.02}
-          scanlineIntensity={0.05}
-          scanlineFrequency={8}
-          speed={0.3}
-          warpAmount={0.12}
+          hueShift={-65}
+          noiseIntensity={0.04}
+          scanlineIntensity={0.02}
+          scanlineFrequency={6}
+          speed={0.45}
+          warpAmount={0.2}
         />
       </div>
-      <div className="relative z-10 min-h-screen bg-ink/80 px-4 py-16 flex items-center justify-center">
-        <div className="max-w-3xl w-full space-y-8">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#2b0f52]/85 via-[#12031F]/90 to-[#050208]/95" />
+      <div className="relative z-10 min-h-screen px-6 py-20 flex items-center justify-center">
+        <div className="max-w-3xl w-full space-y-10">
           <header className="text-center space-y-3">
           <p className="text-xs uppercase tracking-[0.4em] text-textMuted">Shared files</p>
           <h1 className="text-4xl font-semibold">ChamsCheats Drop</h1>
@@ -82,7 +83,7 @@ const SharePage = () => {
           )}
           </header>
 
-          <div className="glass-card p-6">
+          <div className="glass-card p-6 bg-black/55 backdrop-blur-2xl">
           {!data.files.length ? (
             <p className="text-textMuted text-center">No files are available anymore.</p>
           ) : (
