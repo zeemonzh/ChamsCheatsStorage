@@ -153,10 +153,10 @@ const Dashboard = () => {
   const inviteAction =
     user?.isInviteAdmin ? (
       <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
         onClick={() => setInviteModalOpen(true)}
-        className="px-4 py-2 rounded-2xl bg-white/10 text-xs font-semibold hover:bg-white/20 transition"
+        className="px-4 py-2 rounded-2xl border border-white/10 text-xs font-semibold text-white/80 hover:border-white/30 hover:text-white transition"
       >
         Invite codes
       </motion.button>
