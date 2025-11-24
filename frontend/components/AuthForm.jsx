@@ -9,7 +9,13 @@ const spring = { type: 'spring', stiffness: 120, damping: 15 };
 const AuthForm = ({ mode = 'login' }) => {
   const router = useRouter();
   const { login, register } = useAuth();
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    inviteCode: ''
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -32,7 +38,12 @@ const AuthForm = ({ mode = 'login' }) => {
     setLoading(true);
     try {
       if (isRegister) {
-        await register({ name: form.name.trim(), email: form.email.trim(), password: form.password });
+        await register({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          password: form.password,
+          inviteCode: form.inviteCode.trim()
+        });
         router.push('/upload');
       } else {
         await login({ email: form.email.trim(), password: form.password });
@@ -112,6 +123,21 @@ const AuthForm = ({ mode = 'login' }) => {
               minLength={8}
               placeholder="••••••••"
               className="mt-2 w-full rounded-2xl border border-white/5 bg-black/40 px-4 py-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all"
+            />
+          </label>
+        )}
+
+        {isRegister && (
+          <label className="block text-sm font-medium">
+            Invite Code
+            <input
+              type="text"
+              name="inviteCode"
+              value={form.inviteCode}
+              onChange={handleChange}
+              required
+              placeholder="Enter provided code"
+              className="mt-2 w-full uppercase tracking-[0.2em] rounded-2xl border border-white/5 bg-black/40 px-4 py-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all"
             />
           </label>
         )}

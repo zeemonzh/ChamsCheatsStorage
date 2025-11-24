@@ -2,11 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import FileList from '@/components/FileList';
 import FileFilters from '@/components/FileFilters';
+import InviteManager from '@/components/InviteManager';
 import useRequireAuth from '@/hooks/useRequireAuth';
+import { useAuth } from '@/context/AuthContext';
 import apiClient from '@/lib/api';
 
 const Dashboard = () => {
   const { isAuthenticated, loading: authLoading } = useRequireAuth();
+  const { user } = useAuth();
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState('');
@@ -167,6 +170,7 @@ const Dashboard = () => {
         onSubCollectionChange={setSubCollectionFilter}
         onShareSelection={handleShareSelection}
       />
+      {user?.isInviteAdmin && <InviteManager />}
       <FileList
         files={files}
         loading={loading}

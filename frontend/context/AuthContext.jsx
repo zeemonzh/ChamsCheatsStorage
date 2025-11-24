@@ -57,19 +57,23 @@ export const AuthProvider = ({ children }) => {
     window.localStorage.removeItem(USER_KEY);
   };
 
+  const enhanceProfile = (data) => ({ ...data.user, isInviteAdmin: data.isInviteAdmin });
+
   const login = async (credentials) => {
     const { data } = await apiClient.post('/auth/login', credentials);
+    const profile = enhanceProfile(data);
     setToken(data.token);
-    setUser(data.user);
-    persistSession(data.token, data.user);
+    setUser(profile);
+    persistSession(data.token, profile);
     return data;
   };
 
   const register = async (payload) => {
     const { data } = await apiClient.post('/auth/register', payload);
+    const profile = enhanceProfile(data);
     setToken(data.token);
-    setUser(data.user);
-    persistSession(data.token, data.user);
+    setUser(profile);
+    persistSession(data.token, profile);
     return data;
   };
 
