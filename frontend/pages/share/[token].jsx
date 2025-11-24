@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import DarkVeil from '@/components/DarkVeil';
 
 const SharePage = () => {
   const router = useRouter();
@@ -52,9 +53,13 @@ const SharePage = () => {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/share/${token}/download/${fileId}`;
 
   return (
-    <div className="min-h-screen bg-ink text-textPrimary px-4 py-10 flex justify-center">
-      <div className="max-w-3xl w-full space-y-6">
-        <header className="text-center space-y-3">
+    <div className="relative min-h-screen text-textPrimary overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <DarkVeil hueShift={-20} noiseIntensity={0.03} scanlineIntensity={0.08} scanlineFrequency={10} speed={0.35} warpAmount={0.15} />
+      </div>
+      <div className="relative z-10 flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-3xl space-y-8">
+          <header className="text-center space-y-3">
           <p className="text-xs uppercase tracking-[0.4em] text-textMuted">Shared files</p>
           <h1 className="text-4xl font-semibold">ChamsCheats Drop</h1>
           {data.collection && (
@@ -68,9 +73,9 @@ const SharePage = () => {
               Expires on {new Date(data.expiresAt).toLocaleString()}
             </p>
           )}
-        </header>
+          </header>
 
-        <div className="glass-card p-6">
+          <div className="glass-card p-6 backdrop-blur-xl bg-black/40">
           {!data.files.length ? (
             <p className="text-textMuted text-center">No files are available anymore.</p>
           ) : (
@@ -96,9 +101,9 @@ const SharePage = () => {
               ))}
             </div>
           )}
-        </div>
+          </div>
 
-        <footer className="flex flex-wrap justify-center gap-4 text-sm text-textMuted">
+          <footer className="flex flex-wrap justify-center gap-4 text-sm text-textMuted">
           <a
             href="https://discord.gg/chams"
             target="_blank"
@@ -115,7 +120,8 @@ const SharePage = () => {
           >
             Trustpilot Reviews
           </a>
-        </footer>
+          </footer>
+        </div>
       </div>
     </div>
   );
